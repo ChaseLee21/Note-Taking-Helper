@@ -31,7 +31,12 @@ app.get('/notes', (req, res) => {
 
 app.post('/api/notes', (req, res) => {
     console.log(req.body);
-    res.send('POST request to the notes page');
+    let notes = fs.readFileSync('./db/db.json', 'utf8');
+    notes = JSON.parse(notes);
+    notes.push(req.body);
+    notes = JSON.stringify(notes);
+    fs.writeFileSync('./db/db.json', notes, 'utf8');
+    res.json(JSON.parse(notes));
 });
 
 app.get('/api/notes', (req, res) => {
