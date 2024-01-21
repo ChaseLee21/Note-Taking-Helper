@@ -13,6 +13,12 @@ const app = express();
 // server static files
 app.use(express.static('public'));
 
+// parse incoming string or array data
+app.use(express.urlencoded({ extended: true }));
+
+// parse incoming JSON data
+app.use(express.json());
+
 // start the server on specified port
 app.listen(port, () => {
     console.log(`Server listening on port ${port}! Visit http://localhost:${port} in your browser!`);
@@ -24,6 +30,7 @@ app.get('/notes', (req, res) => {
 });
 
 app.post('/api/notes', (req, res) => {
+    console.log(req.body);
     res.send('POST request to the notes page');
 });
 
