@@ -5,6 +5,8 @@ const fs = require('fs');
 
 const path = require('path');
 
+const uuid = require('uuid');
+
 const port = process.env.PORT || 3001;
 
 // initialize express
@@ -29,10 +31,13 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
 
+
 app.post('/api/notes', (req, res) => {
     console.log(req.body);
     let notes = fs.readFileSync('./db/db.json', 'utf8');
     notes = JSON.parse(notes);
+    req.body.id = uuid.v4();
+    console.log(req.body);
     notes.push(req.body);
     notes = JSON.stringify(notes);
     fs.writeFileSync('./db/db.json', notes, 'utf8');
