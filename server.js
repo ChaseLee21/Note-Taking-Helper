@@ -50,6 +50,15 @@ app.get('/api/notes', (req, res) => {
     res.json(notes);
 });
 
+app.delete('/api/notes/:id', (req, res) => {
+    let notes = fs.readFileSync('./db/db.json', 'utf8');
+    notes = JSON.parse(notes);
+    notes = notes.filter(note => note.id != req.params.id);
+    notes = JSON.stringify(notes);
+    fs.writeFileSync('./db/db.json', notes, 'utf8');
+    res.json(JSON.parse(notes));
+});
+
 // default route
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/index.html'));
